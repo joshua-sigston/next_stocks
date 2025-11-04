@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+#joshuasigston_db_user
+#uaF23VHfbiEO0uPj
+#mongodb+srv://joshuasigston_db_user:uaF23VHfbiEO0uPj@cluster0.vkdpory.mongodb.net/?appName=Cluster0
