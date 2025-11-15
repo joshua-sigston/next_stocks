@@ -3,15 +3,15 @@
 import {auth} from "@/lib/better_auth/auth"
 import {inngest} from "@/lib/inngest/client";
 
-export const signUpWitEmail = async ({
-                                         email,
-                                         password,
-                                         fullName,
-                                         country,
-                                         investmentGoals,
-                                         riskTolerance,
-                                         preferredIndustry
-                                     }: SignUpFormData) => {
+export const signUpWithEmail = async ({
+                                          email,
+                                          password,
+                                          fullName,
+                                          country,
+                                          investmentGoals,
+                                          riskTolerance,
+                                          preferredIndustry
+                                      }: SignUpFormData) => {
     try {
         console.log("Sending sign up email to Inngest...")
         const response = await auth.api.signUpEmail({
