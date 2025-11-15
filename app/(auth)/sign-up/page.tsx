@@ -7,9 +7,13 @@ import Select_field from "@/components/forms/select_field";
 import {INVESTMENT_GOALS, PREFERRED_INDUSTRIES, RISK_TOLERANCE_OPTIONS} from "@/lib/constants";
 import {CountrySelectField} from "@/components/forms/country_select";
 import FooterLink from "@/components/forms/footer_link";
+import {signUpWitEmail} from "@/lib/auth/auth.actions";
+import {useRouter} from "next/navigation";
+import {toast} from "sonner";
 
 
 const Page = () => {
+    const router = useRouter()
     const {
         register,
         handleSubmit,
@@ -28,10 +32,15 @@ const Page = () => {
     });
 
     const onSubmit = async (data: SignUpFormData) => {
+        console.log(data)
         try {
-            console.log(data)
+            const result = await signUpWitEmail(data)
+            if (result.success) router.push("/")
         } catch (error) {
             console.log(error)
+            toast.error("Sign up failed.", {
+                description: error instanceof Error ? error.message : "An unexpected error occurred.",
+            })
         }
     }
 
@@ -46,17 +55,21 @@ const Page = () => {
                             error={errors.fullName}
                             validation={{required: "Full name is required", minLength: 2}}
                 />
-                <InputField name="email"
-                            label="Email"
-                            placeholder="johndoe@example.com"
-                            register={register}
-                            error={errors.email}
-                            validation={{
-                                required: "Email is required",
-                                pattern: /^\w+@\w+\.\w+$/,
-                                message: "Email address is required"
-                            }}
+                <InputField
+                    name="email"
+                    label="Email"
+                    placeholder="johndoe@example.com"
+                    register={register}
+                    error={errors.email}
+                    validation={{
+                        required: "Email is required",
+                        pattern: {
+                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                            message: "Enter a valid email",
+                        }
+                    }}
                 />
+
                 <InputField name="password"
                             label="Enter a strong password"
                             placeholder="Enter a strong password"
