@@ -7,7 +7,7 @@ import Select_field from "@/components/forms/select_field";
 import {INVESTMENT_GOALS, PREFERRED_INDUSTRIES, RISK_TOLERANCE_OPTIONS} from "@/lib/constants";
 import {CountrySelectField} from "@/components/forms/country_select";
 import FooterLink from "@/components/forms/footer_link";
-import {signUpWitEmail} from "@/lib/auth/auth.actions";
+import {signUpWithEmail} from "@/lib/auth/auth.actions";
 import {useRouter} from "next/navigation";
 import {toast} from "sonner";
 
@@ -34,8 +34,15 @@ const Page = () => {
     const onSubmit = async (data: SignUpFormData) => {
         console.log(data)
         try {
-            const result = await signUpWitEmail(data)
-            if (result.success) router.push("/")
+            const result = await signUpWithEmail(data)
+            if (result.success) {
+                toast.success("Account created successfully!")
+                router.push("/")
+            } else if (result.error) {
+                toast.error("Sign up failed.", {
+                    description: result.error
+                })
+            }
         } catch (error) {
             console.log(error)
             toast.error("Sign up failed.", {
